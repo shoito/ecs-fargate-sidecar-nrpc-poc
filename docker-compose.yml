@@ -1,19 +1,36 @@
 version: "3.7"
 services:
-  nrpc:
+  xyz-nrpc:
     build:
-      context: ./containers/nrpc
+      context: ./containers/xyz-nrpc
     ports:
       - "9080:80"
     networks:
       - poc
     depends_on:
-      - bff
-  bff:
+      - xyz-bff
+  xyz-bff:
     build:
       context: ./containers/xyz-bff
     ports:
       - "3000"
+    networks:
+      - poc
+
+  abc-nrpc:
+    build:
+      context: ./containers/abc-nrpc
+    ports:
+      - "19080:80"
+    networks:
+      - poc
+    depends_on:
+      - abc-bff
+  abc-bff:
+    build:
+      context: ./containers/abc-bff
+    ports:
+      - "13000:3000"
     networks:
       - poc
 

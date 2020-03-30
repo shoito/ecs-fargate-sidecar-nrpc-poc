@@ -67,10 +67,10 @@ http {
   # gzip圧縮対象の最小サイズ(これ以上の場合にgzip圧縮する)
   gzip_min_length 1024;
 
-  # キャッシュのファイルパスとパラメータ。最大キャッシュサイズやキャッシュ期間など。
-  # http://nginx.org/en/docs/http/ngx_http_proxy_module.html
-  # A 1‑MB zone can store data for about 8,000 keys
-  proxy_cache_path /var/cache/nginx/cache levels=1:2 keys_zone=bff_cache:16m max_size=3g inactive=30m;
+  # # キャッシュのファイルパスとパラメータ。最大キャッシュサイズやキャッシュ期間など。
+  # # http://nginx.org/en/docs/http/ngx_http_proxy_module.html
+  # # A 1‑MB zone can store data for about 8,000 keys
+  # proxy_cache_path /var/cache/nginx/cache levels=1:2 keys_zone=bff_cache:16m max_size=3g inactive=30m;
 
   # WebSocket対応のためUpgrade
   # プロキシのHTTPプロトコルバージョン(デフォルト:1.0)
@@ -88,7 +88,7 @@ http {
 
   # リクエスト転送先のサーバー定義
   upstream backend {
-    server xyz-bff:3000;
+    server abc-bff:13000;
   }
 
   server {
@@ -108,20 +108,20 @@ http {
       # プロキシ先
       proxy_pass http://backend/xyz/;
 
-      # リクエストキャッシュの際に無視するヘッダー
-      proxy_ignore_headers X-Accel-Expires Cache-Control Expires;
+      # # リクエストキャッシュの際に無視するヘッダー
+      # proxy_ignore_headers X-Accel-Expires Cache-Control Expires;
 
-      # キャッシュキーゾーン名s
-      proxy_cache bff_cache;
-      # キャッシュキーとしてこれをmd5化したものを使う
-      proxy_cache_key "$scheme$proxy_host$request_uri";
-      # キャッシュ対象のHTTPステータスとキャッシュ時間
-      proxy_cache_valid 200 302 60m;
-      proxy_cache_valid 404 1m;
-      # キャッシュされるまでに必要なリクエスト回数
-      proxy_cache_min_uses 1;
-      # オリジンがダウンしたときにキャッシュされたコンテンツを配信する
-      proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+      # # キャッシュキーゾーン名s
+      # proxy_cache bff_cache;
+      # # キャッシュキーとしてこれをmd5化したものを使う
+      # proxy_cache_key "$scheme$proxy_host$request_uri";
+      # # キャッシュ対象のHTTPステータスとキャッシュ時間
+      # proxy_cache_valid 200 302 60m;
+      # proxy_cache_valid 404 1m;
+      # # キャッシュされるまでに必要なリクエスト回数
+      # proxy_cache_min_uses 1;
+      # # オリジンがダウンしたときにキャッシュされたコンテンツを配信する
+      # proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
     }
   }
 }

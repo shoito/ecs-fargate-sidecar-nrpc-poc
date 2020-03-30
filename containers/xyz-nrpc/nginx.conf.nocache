@@ -88,7 +88,7 @@ http {
 
   # リクエスト転送先のサーバー定義
   upstream backend {
-    server bff:3000;
+    server xyz-bff:3000;
   }
 
   server {
